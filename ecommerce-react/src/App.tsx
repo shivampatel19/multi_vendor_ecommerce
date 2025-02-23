@@ -1,12 +1,19 @@
-import { Button } from '@mui/material';
-import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
-import './App.css';
+import { ThemeProvider } from "@mui/material";
+import "./App.css";
+import customTheme from "./theme/customTheme";
+import Navbar from "./customer/Navbar/Navbar";
+import Home from "./customer/pages/Home/Home";
+
 
 function App() {
   return (
-    <div className='p-20'>
-      <h1 className='font-bold text-5xl'>Multivendor Ecommerce App</h1>
-      
+    <div>
+      <ThemeProvider theme={customTheme}>
+        <div>
+          <Navbar />
+          <Home />
+        </div>
+      </ThemeProvider>
     </div>
   );
 }
