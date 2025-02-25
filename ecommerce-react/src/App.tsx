@@ -3,6 +3,7 @@ import "./App.css";
 import customTheme from "./theme/customTheme";
 import Navbar from "./customer/Navbar/Navbar";
 import Home from "./customer/pages/Home/Home";
+import Product from "./customer/pages/Product/Product";
 
 
 function App() {
@@ -11,7 +12,8 @@ function App() {
       <ThemeProvider theme={customTheme}>
         <div>
           <Navbar />
-          <Home />
+          {/* <Home /> */}
+          <Product />
         </div>
       </ThemeProvider>
     </div>
