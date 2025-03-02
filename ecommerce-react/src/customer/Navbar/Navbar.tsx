@@ -17,12 +17,15 @@ import {
 } from "@mui/material";
 import CategorySheet from "./CategorySheet";
 import { mainCategory } from "../../data/category/mainCategory";
+import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
   const theme = useTheme();
   const isLarge = useMediaQuery(theme.breakpoints.up("lg"));
   const [selectedCategory, setSelectedCategory] = useState("men");
   const [showCategorySheet, setShowCategorySheet] = useState(false);
+  const  navigate = useNavigate();
+
   return (
     <>
       <Box
@@ -37,7 +40,7 @@ const Navbar = () => {
                   <MenuIcon />
                 </IconButton>
               )}
-              <h1 className="logo cursor-pointertext-lg md:text-2xl text-[#00927c]">
+              <h1 onClick={() => navigate("/")} className="logo cursor-pointertext-lg md:text-2xl text-[#00927c]">
                 Ecom Bazaar
               </h1>
             </div>
@@ -64,8 +67,8 @@ const Navbar = () => {
             <IconButton>
               <SearchIcon />
             </IconButton>
-            {false ? (
-              <Button className="flexitems-centers gap-2">
+            {true ? (
+              <Button onClick={()=> navigate("account/orders")} className="flexitems-centers gap-2">
                 <Avatar src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8YmVhY2h8ZW58MHx8MHx8fDA%3D" />
                 <h1 className="font-semibold hidden lg:block">Shivam</h1>
               </Button>
@@ -76,7 +79,7 @@ const Navbar = () => {
               <FavoriteBorder sx={{ fontSize: 29 }} />
             </IconButton>
             <IconButton>
-              <AddShoppingCart
+              <AddShoppingCart onClick={() => navigate("/cart")}
                 className="text-gray-700"
                 sx={{ fontSize: 29 }}
               />
