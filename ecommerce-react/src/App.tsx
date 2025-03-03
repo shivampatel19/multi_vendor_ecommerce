@@ -10,6 +10,8 @@ import Cart from "./customer/pages/Cart/Cart";
 import AddressPage from "./customer/pages/Checkout/AddressPage";
 import Profile from "./customer/pages/Account/Profile";
 import { Route, Routes } from "react-router-dom";
+import BecomeSeller from "./customer/pages/BecomeSeller/BecomeSeller";
+import SellerDashboard from "./seller/pages/SellerDashboard/SellerDashboard";
 
 function App() {
   return (
@@ -40,6 +42,8 @@ function App() {
           <Route path='/cart' element={<Cart />} />
           <Route path='/checkout' element={<AddressPage />} />
           <Route path='/account/*' element={<Profile />} />
+          <Route path='/seller/*' element={<SellerDashboard />} />
+          <Route path='/become-seller' element={<BecomeSeller />} />
         </Routes>
         {/* <Footer/> */}
       </div>
