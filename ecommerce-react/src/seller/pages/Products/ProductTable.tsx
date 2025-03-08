@@ -13,6 +13,8 @@ import TablePaginationActions from '@mui/material/TablePagination/TablePaginatio
 import EditIcon from '@mui/icons-material/Edit';
 import { isTemplateMiddle } from 'typescript';
 import { useNavigate } from 'react-router-dom';
+import { fetchSellerProducts, updateProductStock } from '../../../Redux Toolkit/Seller/sellerProductSlice';
+import { useAppDispatch, useAppSelector } from '../../../Redux Toolkit/Store';
 
 function createData(
   name: string,
@@ -50,20 +52,20 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 export default function ProductTable() {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
-  // const { sellerProduct } = useAppSelector(store => store);
-  // const dispatch = useAppDispatch();
+  const { sellerProduct } = useAppSelector(store => store);
+  const dispatch = useAppDispatch();
   const navigate=useNavigate();
 
 
 
 
-  // React.useEffect(() => {
-  //   dispatch(fetchSellerProducts(localStorage.getItem("jwt")))
-  // }, [])
+  React.useEffect(() => {
+    dispatch(fetchSellerProducts(localStorage.getItem("jwt")))
+  }, [])
 
-  // const handleUpdateStack = (id: number | undefined)=>() => {
-  //   dispatch(updateProductStock(id))
-  // }
+  const handleUpdateStack = (id: number | undefined)=>() => {
+    dispatch(updateProductStock(id))
+  }
 
   return (
     <>
@@ -83,7 +85,7 @@ export default function ProductTable() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {/* {sellerProduct.products.map((item) => (
+            {sellerProduct.products.map((item) => (
               <StyledTableRow key={item.id}>
                 <StyledTableCell component="th" scope="row">
                   <div className='flex gap-1 flex-wrap'>
@@ -103,7 +105,7 @@ export default function ProductTable() {
                   </IconButton>
                 </StyledTableCell>
               </StyledTableRow>
-            ))} */}
+            ))}
           </TableBody>
         </Table>
       </TableContainer>

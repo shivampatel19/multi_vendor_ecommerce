@@ -1,96 +1,177 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect, MouseEvent } from "react";
 import "./ProductCard.css";
-import { Button } from "@mui/material";
-import { Favorite, ModeComment } from "@mui/icons-material";
+import FavoriteIcon from "@mui/icons-material/Favorite";
 import { teal } from "@mui/material/colors";
+import { Box, Button, IconButton, Modal } from "@mui/material";
+import { useNavigate, useParams } from "react-router-dom";
+import { Product } from "../../../../types/productTypes";
+import {
+    useAppDispatch,
+    useAppSelector,
+} from "../../../../Redux Toolkit/Store";
+import { fetchProductById } from "../../../../Redux Toolkit/Customer/ProductSlice";
+import { addProductToWishlist } from "../../../../Redux Toolkit/Customer/WishlistSlice";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import { isWishlisted } from "../../../../util/isWishlisted";
+import ModeCommentIcon from '@mui/icons-material/ModeComment';
+// import ChatBot from "../../ChatBot/ChatBot";
 
-const images = [
-  "https://encrypted-tbn1.gstatic.com/shopping?q=tbn:ANd9GcRTd2-_JzTQMEl9a3Qdn9lzR-0F6GvJU6VPBzkAiNiJehb-B8haQU6Ue8uiJgkZrtbHzYA85D0TcIJbnE-9gNwKVNVKrLmgI_Q8t6LLQGl9TISn1p5syA-LTA&usqp=CAE",
-  "https://encrypted-tbn0.gstatic.com/shopping?q=tbn:ANd9GcTpNYD_3G2liuzc3rE-yO842d5UqN_WT152gfq8l0Vnzjw59qAZzkp1Q-TkEHdjFihY7EfR5ezrAqhzzP6AN12rbwzMrMkmZH3Z-X-sksgOjP0gRrEt2p0wSA",
-  "https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcSuYeagWxbeRZ11ngoOyQ_QwsMoObS3JexgdMRxJ-FLLhRm_1qhbFRJ4DqNLubx5sRM5PY6qqYLmKY10OuH0Lcz_cQURcNHRQ&usqp=CAY",
-  "https://encrypted-tbn0.gstatic.com/shopping?q=tbn:ANd9GcQGFbvf5BG3wWpwYFdyFAFm8USodeP3624QEzzy4Vc9uHPuIgXuSTjDb42FaYY-hRSAxg9rU30uLcOAXfyLk1tbMqM_WvpbsQ&usqp=CAY",
-  "https://encrypted-tbn1.gstatic.com/shopping?q=tbn:ANd9GcSGNLFUk4SpYNM5icn7VPWfvfhH8XpEnHkDgz5fW76yi8JszwYRzTWRF9d29IoabeXNl9J4DaId8AhbgDek4S_7W91ntKJI&usqp=CAY",
-];
+interface ProductCardProps {
+    // images: string[];
+    // categoryId: string | undefined;
+    item: Product;
+}
+const style = {
+    position: 'absolute' as 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: "auto",
+    borderRadius: ".5rem",
+    boxShadow: 24,
 
-const ProductCard = () => {
-  const [currentImage, setCurrentImage] = React.useState(0);
-  const [isHovered, setIsHovered] = React.useState(false);
+};
 
-  useEffect(() => {
-    let interval: any;
-    if (isHovered) {
-      interval = setInterval(() => {
-        setCurrentImage((prev) => (prev + 1) % images.length);
-      }, 1000);
-    } else if (interval) {
-      clearInterval(interval);
-      interval = null;
+const ProductCard: React.FC<ProductCardProps> = ({ item }) => {
+    const [currentImage, setCurrentImage] = useState(0);
+    const [isHovered, setIsHovered] = useState(false);
+    const [isFavorite, setIsFavorite] = useState(false);
+    const wishlist = useAppSelector((state) => state.wishlist);
+
+    const navigate = useNavigate();
+    const dispatch = useAppDispatch();
+    const [showChatBot, setShowChatBot] = useState(false)
+
+    const handleAddWishlist = (event: MouseEvent) => {
+        event.stopPropagation();
+        setIsFavorite((prev) => !prev);
+        if (item.id) dispatch(addProductToWishlist({ productId: item.id }));
+    };
+
+    useEffect(() => {
+        let interval: any;
+        if (isHovered) {
+            interval = setInterval(() => {
+                setCurrentImage((prevImage) => (prevImage + 1) % item.images.length);
+            }, 1000); // Change image every 1 second
+        } else if (interval) {
+            clearInterval(interval);
+        }
+        return () => clearInterval(interval);
+    }, [isHovered, item.images.length]);
+
+    const handleShowChatBot = (event: MouseEvent) => {
+        event.stopPropagation();
+        setShowChatBot(true)
     }
-    return () => clearInterval(interval);
-  }, [isHovered]);
+    const handleCloseChatBot = (e: MouseEvent) => {
+        e.stopPropagation();
+        setShowChatBot(false)
+    }
 
-  return (
-    <>
-      <div className="group px-4 relative">
-        <div
-          className="card"
-          onMouseEnter={() => setIsHovered(true)}
-          onMouseLeave={() => setIsHovered(false)}
-        >
-          {images.map((item, index) => (
-            <img
-              className="card-media object-top"
-              src={item}
-              alt=""
-              style={{
-                transform: `translateX(${(index - currentImage) * 100}%)`,
-              }}
-            />
-          ))}
+    return (
+        <>
+            <div
+                onClick={() =>
+                    navigate(
+                        `/product-details/${item.category?.categoryId}/${item.title}/${item.id}`
+                    )
+                }
+                className="group px-4 relative"
+            >
+                <div
+                    className="card "
+                    onMouseEnter={() => setIsHovered(true)}
+                    onMouseLeave={() => setIsHovered(false)}
+                >
+                    {item.images.map((image: any, index: number) => (
+                        <img
+                            key={index}
+                            className="card-media object-top"
+                            src={image}
+                            alt={`product-${index}`}
+                            style={{
+                                transform: `translateX(${(index - currentImage) * 100}%)`,
+                            }}
+                        />
+                    ))}
+                    {isHovered && (
+                        <div className="indicator flex flex-col items-center space-y-2">
+                            <div className="flex gap-4">
+                                {item.images.map((item: any, index: number) => (
+                                    <button
+                                        key={index}
+                                        className={`indicator-button ${index === currentImage ? "active" : ""
+                                            }`}
+                                        onClick={() => setCurrentImage(index)}
+                                    />
+                                ))}
+                            </div>
 
-          {isHovered && (
-            <div className="indicator flex flex-col items-center space-y-2">
-              <div className="flex gap-2">
-                <Button variant="contained" color="secondary">
-                  <Favorite sx={{ color: teal[500] }} />
-                </Button>
-                <Button variant="contained" color="secondary">
-                  <ModeComment sx={{ color: teal[500] }} />
-                </Button>
-              </div>
-            </div>
-          )}
-        </div>
-        <div className="details pt-3 space-y-1 group-hover-effect  rounded-md ">
+                            <div className="flex gap-3">
+                                {wishlist.wishlist && (
+                                    <Button
+                                        variant="contained"
+                                        color="secondary"
+
+                                        sx={{ zIndex: 10 }}
+                                        className=" z-50"
+                                        onClick={handleAddWishlist}
+                                    >
+                                        {isWishlisted(wishlist.wishlist, item) ? (
+                                            <FavoriteIcon sx={{ color: teal[500] }} />
+                                        ) : (
+                                            <FavoriteBorderIcon sx={{ color: "gray" }} />
+                                        )}
+                                    </Button>
+                                )}
+                                <Button onClick={handleShowChatBot} color="secondary" variant="contained">
+                                    <ModeCommentIcon sx={{ color: teal[500] }} />
+                                </Button>
+                            </div>
+
+
+                        </div>
+                    )}
+                </div>
+                <div className="details pt-3 space-y-1 group-hover-effect  rounded-md ">
                     <div className="name space-y ">
                         <h1 className="font-semibold text-lg">
-                            seller
-                            {/* {item.seller?.businessDetails.businessName} */}
+                            {item.seller?.businessDetails.businessName}
                         </h1>
-                        <p className="">
-                            Shirt
-                            {/* {item.title} */}
-                            </p>
+                        <p className="">{item.title}</p>
                     </div>
                     <div className="price flex items-center gap-3 ">
                         <span className="font-semibold text-gray-800">
                             {" "}
-                            ₹ 50
-                            {/* ₹{item.sellingPrice} */}
+                            ₹{item.sellingPrice}
                         </span>
                         <span className="text thin-line-through text-gray-400 ">
-                        ₹ 100
-                            {/* ₹{item.mrpPrice} */}
+                            ₹{item.mrpPrice}
                         </span>
                         <span className="text-[#00927c] font-semibold">
-                            50% off
-                            {/* {item.discountPercent}% off */}
+                            {item.discountPercent}% off
                         </span>
                     </div>
                 </div>
-      </div>
-    </>
-  );
+
+            </div>
+            {showChatBot && <section className="absolute left-16 top-0">
+                <Modal
+                    open={true}
+                    onClose={handleCloseChatBot}
+                    aria-labelledby="modal-modal-title"
+                    aria-describedby="modal-modal-description"
+                >
+                    <Box sx={style}>
+                        {/* <ChatBot handleClose={handleCloseChatBot} productId={item.id} /> */}
+                        Chatbot
+                    </Box>
+                </Modal>
+
+            </section>}
+        </>
+    );
 };
 
 export default ProductCard;

@@ -8,7 +8,7 @@ const DrawerList = ({toggleDrawer}:any) => {
 
   return (
     <Box sx={{ width: 250 }} role="presentation" 
-    // onClick={toggleDrawer(false)}
+    onClick={toggleDrawer(false)}
     >
     <List>
 
@@ -19,7 +19,7 @@ const DrawerList = ({toggleDrawer}:any) => {
         </ListItemButton>
       </ListItem>
       <Divider />
-     
+
       {mainCategory.map((item) => <ListItem key={item.name} disablePadding>
         <ListItemButton onClick={()=>setSelectedCategory(item.categoryId)}>
           <ListItemText primary={item.name} />

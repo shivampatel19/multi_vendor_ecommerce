@@ -101,8 +101,8 @@ const FilterSection = () => {
               {expendBrand ? "hide" : `+ ${brands.length - 5} more`}
             </button>
           </div>
-        </section>
-        <Divider /> */}
+        </section> */}
+        <Divider />
         <section>
           <FormControl sx={{ zIndex: 0 }}>
             <FormLabel

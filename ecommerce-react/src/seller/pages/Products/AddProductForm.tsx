@@ -35,13 +35,8 @@ import { womenLevelThree } from "../../../data_copy/category/level_three/womenLe
 import { furnitureLevelThree } from "../../../data_copy/category/level_three/furnitureLevelThree";
 import { electronicsLevelThree } from "../../../data_copy/category/level_three/electronicsLevelThree";
 import { uploadToCloudinary } from "../../../util/uploadToCloudnary";
-// import { useAppDispatch, useAppSelector } from "../../../Redux Toolkit/Store";
-// import { createProduct } from "../../../Redux Toolkit/Seller/sellerProductSlice";
-// import { uploadToCloudinary } from "../../../util/uploadToCloudnary";
-// import { electronicsLevelThree } from "../../../data/category/level three/electronicsLevelThree";
-// import { electronicsLevelTwo } from "../../../data/category/level two/electronicsLavelTwo";
-// import { furnitureLevelTwo } from "../../../data/category/level two/furnitureLevleTwo";
-// import { furnitureLevelThree } from "../../../data/category/level three/furnitureLevelThree";
+import { createProduct } from "../../../Redux Toolkit/Seller/sellerProductSlice";
+import { useAppDispatch, useAppSelector } from "../../../Redux Toolkit/Store";
 
 const categoryTwo: { [key: string]: any[] } = {
   men: menLevelTwo,
@@ -68,18 +63,15 @@ const validationSchema = Yup.object({
   description: Yup.string()
     .min(10, "Description should be at least 10 characters long")
     .required("Description is required"),
-  price: Yup.number()
-    .positive("Price should be greater than zero")
-    .required("Price is required"),
-  discountedPrice: Yup.number()
-    .positive("Discounted Price should be greater than zero")
-    .required("Discounted Price is required"),
-  discountPercent: Yup.number()
-    .positive("Discount Percent should be greater than zero")
-    .required("Discount Percent is required"),
-  quantity: Yup.number()
-    .positive("Quantity should be greater than zero")
-    .required("Quantity is required"),
+  // mrpPrice: Yup.number()
+  //   .positive("Price should be greater than zero")
+  //   .required("Price is required"),
+  // sellingPrice: Yup.number()
+  //   .positive("Selling Price should be greater than zero")
+  //   .required("Selling Price is required"),
+  // quantity: Yup.number()
+  //   .positive("Quantity should be greater than zero")
+  //   .required("Quantity is required"),
   color: Yup.string().required("Color is required"),
   category: Yup.string().required("Category is required"),
   sizes: Yup.string().required("Sizes are required"),
@@ -87,10 +79,10 @@ const validationSchema = Yup.object({
 
 const ProductForm = () => {
   const [uploadImage, setUploadingImage] = useState(false);
-  // const dispatch = useAppDispatch();
-  // const { sellers, sellerProduct } = useAppSelector(store => store);
+  const dispatch = useAppDispatch();
+  const { sellers, sellerProduct } = useAppSelector(store => store);
 
-  // const [snackbarOpen, setOpenSnackbar] = useState(false);
+  const [snackbarOpen, setOpenSnackbar] = useState(false);
 
   const formik = useFormik({
     initialValues: {
@@ -106,10 +98,10 @@ const ProductForm = () => {
       category3: "",
       sizes: "",
     },
-    // validationSchema: validationSchema,
+    validationSchema: validationSchema,
     onSubmit: (values) => {
-      //dispatch(createProduct({ request: values, jwt: localStorage.getItem("jwt") }))
       console.log(values);
+      dispatch(createProduct({ request: values, jwt: localStorage.getItem("jwt") }))
     },
   });
 
@@ -131,19 +123,22 @@ const ProductForm = () => {
   const childCategory = (category: any, parentCategoryId: any) => {
     return category.filter((child: any) => {
       // console.log("Category", parentCategoryId, child)
-      return child.parentCategoryId == parentCategoryId;
+      return child.parentCategoryId === parentCategoryId;
     });
   };
 
-  // const handleCloseSnackbar = () => {
-  //   setOpenSnackbar(false);
-  // }
+  const handleCloseSnackbar = () => {
+    setOpenSnackbar(false);
+  }
+  
+  //console.log("formik.handleSubmit:", formik.handleSubmit);
 
-  // useEffect(() => {
-  //   if (sellerProduct.productCreated || sellerProduct.error) {
-  //     setOpenSnackbar(true)
-  //   }
-  // }, [sellerProduct.productCreated,sellerProduct.error])
+
+  useEffect(() => {
+    if (sellerProduct.productCreated || sellerProduct.error) {
+      setOpenSnackbar(true)
+    }
+  }, [sellerProduct.productCreated,sellerProduct.error])
 
   return (
     <div>
@@ -418,22 +413,19 @@ const ProductForm = () => {
               variant="contained"
               fullWidth
               type="submit"
-              // /disabled={sellerProduct.loading}
+              disabled={sellerProduct.loading}
             >
-              {false ? (
-                <CircularProgress
-                  size="small"
-                  // {sellerProduct.loading ? <CircularProgress size="small"
+                  {sellerProduct.loading ? (<CircularProgress size="small"
                   sx={{ width: "27px", height: "27px" }}
                 />
               ) : (
-                "Add Product"
+                "Add this Product"
               )}
             </Button>
           </Grid2>
         </Grid2>
       </form>
-      {/* <Snackbar
+      <Snackbar
         anchorOrigin={{ vertical: "top", horizontal: "right" }}
         open={snackbarOpen} autoHideDuration={6000}
         onClose={handleCloseSnackbar}
@@ -446,7 +438,7 @@ const ProductForm = () => {
         >
           {sellerProduct.error ? sellerProduct.error : "Product created successfully"}
         </Alert>
-      </Snackbar> */}
+      </Snackbar>
     </div>
   );
 };

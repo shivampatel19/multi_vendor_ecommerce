@@ -3,7 +3,7 @@ import axios from "axios";
 import { api } from "../../Config/Api";
 import { Product } from "../../types/productTypes";
 
-const API_URL = "/sellers/product";
+const API_URL = "/sellers/products";
 
 export const fetchSellerProducts = createAsyncThunk<Product[], any>(
   "sellerProduct/fetchSellerProducts",

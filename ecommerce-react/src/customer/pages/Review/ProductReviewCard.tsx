@@ -1,60 +1,54 @@
 import React from "react";
-import { Avatar, Grid2, IconButton } from "@mui/material";
+import { Avatar, IconButton } from "@mui/material";
 import { Rating, Box, Typography, Grid } from "@mui/material";
-//import { Review } from "../../../types/reviewTypes";
+import { Review } from "../../../types/reviewTypes";
 import DeleteIcon from '@mui/icons-material/Delete';
 import { red } from "@mui/material/colors";
-//import { useAppDispatch, useAppSelector } from "../../../Redux Toolkit/Store";
-//import { deleteReview } from "../../../Redux Toolkit/Customer/ReviewSlice";
+import { useAppDispatch, useAppSelector } from "../../../Redux Toolkit/Store";
+import { deleteReview } from "../../../Redux Toolkit/Customer/ReviewSlice";
 
-// interface ProductReviewCardProps {
-//   item: Review;
-// }
+interface ProductReviewCardProps {
+  item: Review;
+}
 
-const ProductReviewCard = () => {
-// const ProductReviewCard = ({ item }: ProductReviewCardProps) => {
+const ProductReviewCard = ({ item }: ProductReviewCardProps) => {
   const [value, setValue] = React.useState(4.5);
-  //const { auth, user } = useAppSelector(store => store);
-  //const dispatch = useAppDispatch()
-  // const handleDeleteReview = () => {
-  //   dispatch(deleteReview({ reviewId: item.id, jwt: localStorage.getItem("jwt") || "" }))
-  // };
+  const { auth, user } = useAppSelector((state) => ({
+    auth: state.auth,
+    user: state.user,
+  }));
+  
+  const dispatch = useAppDispatch()
+  const handleDeleteReview = () => {
+    dispatch(deleteReview({ reviewId: item.id, jwt: localStorage.getItem("jwt") || "" }))
+  };
   return (
     <div className="flex justify-between">
-      <Grid2 container spacing={8}>
-        <Grid2 size={{xs:1}}>
+      <Grid container spacing={2} gap={3}>
+        <Grid item xs={1}>
           <Box>
-            {/* <Avatar
+            <Avatar
               className="text-white"
               sx={{ width: 56, height: 56, bgcolor: "#9155FD" }}
               alt={item.user.fullName}
               src=""
-            > */}
-                        <Avatar
-              className="text-white"
-              sx={{ width: 56, height: 56, bgcolor: "#9155FD" }}
-              src=""
             >
-              {/* {item.user.fullName[0].toUpperCase()} */}
-              Z
+              {item.user.fullName[0].toUpperCase()}
             </Avatar>
           </Box>
-        </Grid2>
-        <Grid2  size={{xs:9}}>
+        </Grid>
+        <Grid item xs={9}>
           <div className="space-y-2">
             <div className="">
-              {/* <p className="font-semibold text-lg">{item.user.fullName}</p>
-              <p className="opacity-70">{item.createdAt}</p> */}
-                            <p className="font-semibold text-lg">Shivam</p>
-                            <p className="opacity-70">hi</p>
+              <p className="font-semibold text-lg">{item.user.fullName}</p>
+              <p className="opacity-70">{item.createdAt}</p>
             </div>
             <div>
 
 
               <Rating
                 readOnly
-                value={4.5}
-                // value={item.rating}
+                value={item.rating}
                 name="half-rating"
                 defaultValue={2.5}
                 precision={0.5}
@@ -62,26 +56,21 @@ const ProductReviewCard = () => {
 
             </div>
             <p>
-              {/* {item.reviewText} */}
-              hiii this is review
+              {item.reviewText}
             </p>
-            {/* <div>
-              {item.productImages.map((image) => <img key={image} className="w-24 h-24 object-cover" src={image} alt="" />)}
-            </div> */}
             <div>
-              Image
+              {item.productImages.map((image) => <img key={image} className="w-24 h-24 object-cover" src={image} alt="" />)}
             </div>
           </div>
-        </Grid2>
-      </Grid2>
-      {/* {item.user.id === user.user?.id && <div className="">
+        </Grid>
+      </Grid>
+      {item.user.id === user.user?.id && <div className="">
         <IconButton onClick={handleDeleteReview}>
           <DeleteIcon sx={{ color: red[700] }} />
         </IconButton>
-      </div>} */}
+      </div>}
     </div>
   );
 };
 
 export default ProductReviewCard;
-

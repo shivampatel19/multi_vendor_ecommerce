@@ -1,51 +1,49 @@
 import React, { useEffect } from 'react'
-//import { useAppDispatch, useAppSelector } from '../../../Redux Toolkit/Store';
+import { useAppDispatch, useAppSelector } from '../../../Redux Toolkit/Store';
 import { useParams } from 'react-router-dom';
-//import { fetchProductById } from '../../../Redux Toolkit/Customer/ProductSlice';
-//import { Box, Divider, Grid, LinearProgress, Rating } from '@mui/material';
-import ProductReviewCard from './ProductReviewCard';
-//import { fetchReviewsByProductId } from '../../../Redux Toolkit/Customer/ReviewSlice';
-import RatingCard from './RatingCard';
+import { fetchProductById } from '../../../Redux Toolkit/Customer/ProductSlice';
 import { Divider } from '@mui/material';
+import ProductReviewCard from './ProductReviewCard';
+import { fetchReviewsByProductId } from '../../../Redux Toolkit/Customer/ReviewSlice';
+import RatingCard from './RatingCard';
 
 const Reviews = () => {
-    // const dispatch = useAppDispatch();
-    // const { products, review } = useAppSelector(store => store)
+    const dispatch = useAppDispatch();
+    const { products, review } = useAppSelector((state) => ({
+        products: state.products,
+        review: state.review,
+    }));
 
-    // const { productId } = useParams()
 
-    // useEffect(() => {
+    const { productId } = useParams()
 
-    //     if (productId) {
-    //         dispatch(fetchProductById(Number(productId)))
-    //         dispatch(fetchReviewsByProductId({ productId: Number(productId) }))
-    //     }
+    useEffect(() => {
 
-    // }, [productId])
+        if (productId) {
+            dispatch(fetchProductById(Number(productId)))
+            dispatch(fetchReviewsByProductId({ productId: Number(productId) }))
+        }
+
+    }, [productId])
 
     return (
         <div className='p-5 lg:p-20 flex flex-col lg:flex-row gap-20'>
             <section className='w-full md:w-1/2 lg:w-[30%] space-y-2'>
                 <img className='w-full' src={
-                    'https://www.karagiri.com/cdn/shop/products/patola-saree-hot-pink-patola-saree-silk-saree-online-32261950898369.jpg?v=1704965372'
-                    //products.product?.images[0]
+                    products.product?.images[0]
                 } alt="" />
                 <div>
                     <div>
-                        {/* <p className='font-bold text-xl'> {products.product?.seller?.businessDetails.businessName} */}
-                        <p className='font-bold text-xl'> business name
+                        <p className='font-bold text-xl'> {products.product?.seller?.businessDetails.businessName}
+
                         </p>
-                        {/* <p className='text-lg text-gray-600'>{products.product?.title}</p> */}
-                        <p>title</p>
+                        <p className='text-lg text-gray-600'>{products.product?.title}</p>
                     </div>
 
                     <div className='price flex items-center gap-3 mt-5 text-lg'>
-                        {/* <span className='font-semibold text-gray-800' > ₹{products.product?.sellingPrice}</span>
+                        <span className='font-semibold text-gray-800' > ₹{products.product?.sellingPrice}</span>
                         <span className='text thin-line-through text-gray-400 '>₹{products.product?.mrpPrice}</span>
-                        <span className='text-[#00927c] font-semibold'>{products.product?.discountPercent}% off</span> */}
-                                                <span className='font-semibold text-gray-800' > ₹100</span>
-                        <span className='text thin-line-through text-gray-400 '>₹200</span>
-                        <span className='text-[#00927c] font-semibold'>40% off</span>
+                        <span className='text-[#00927c] font-semibold'>{products.product?.discountPercent}% off</span>
                     </div>
 
                 </div>
@@ -58,18 +56,12 @@ const Reviews = () => {
                <RatingCard/>
                 <div className='mt-10'>
                     <div className="space-y-5">
-                        {/* {review.reviews.map((item, i) => (
+                        {review.reviews.map((item, i) => (
                             <div className='space-y-5'>
                                 <ProductReviewCard item={item} />
                                 {review.reviews.length - 1 !== i && <Divider />}
                             </div>
-                        ))} */}
-                        <section className='space-y-5 w-full'>
-                        {[1,1,1,1,1,1,1].map((item)=> <div className='space-y-3'><ProductReviewCard/>
-                            <Divider />
-                            </div>
-                        )}
-                        </section>
+                        ))}
                     </div>
                 </div>
 
@@ -81,4 +73,3 @@ const Reviews = () => {
 }
 
 export default Reviews
-

@@ -3,8 +3,8 @@ import Divider from "@mui/material/Divider";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import { useLocation, useNavigate } from "react-router-dom";
-//import { useAppDispatch } from "../../../Redux Toolkit/Store";
-//import { performLogout } from "../../../Redux Toolkit/Customer/AuthSlice";
+import { useAppDispatch } from "../../../Redux Toolkit/Store";
+import { performLogout } from "../../../Redux Toolkit/Customer/AuthSlice";
 
 export interface Menu{
     name: string;
@@ -21,20 +21,20 @@ interface DrawerListProps{
 
 const DrawerList = ({ toggleDrawer,menu,menu2 }: DrawerListProps) => {
 
-    // const dispatch = useAppDispatch()
+    const dispatch = useAppDispatch();
 
 
     const location = useLocation();
     const navigate = useNavigate();
 
-    // const handleLogout = () => {
-    //     dispatch(performLogout())
-    // }
+    const handleLogout = () => {
+        dispatch(performLogout())
+    }
 
     const handleClick = (item: any)=>() => {
 
         if (item.name === "Logout") {
-            // handleLogout()
+            handleLogout()
 
         }
         navigate(item.path);
