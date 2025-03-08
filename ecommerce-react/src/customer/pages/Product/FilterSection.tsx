@@ -8,12 +8,12 @@ import {
   RadioGroup,
 } from "@mui/material";
 import React, { useState } from "react";
-import { brands } from "../../../data/Filter/brand";
+import { brands } from "../../../data_copy/Filter/brand";
 import { teal } from "@mui/material/colors";
 import zIndex from "@mui/material/styles/zIndex";
-import { colors } from "../../../data/Filter/color";
-import { price } from "../../../data/Filter/price";
-import { discount } from "../../../data/Filter/discount";
+import { colors } from "../../../data_copy/Filter/color";
+import { price } from "../../../data_copy/Filter/price";
+import { discount } from "../../../data_copy/Filter/discount";
 import { useSearchParams } from "react-router-dom";
 
 const FilterSection = () => {
@@ -40,7 +40,7 @@ const FilterSection = () => {
   };
 
   const clearAllFilters = () => {
-    console.log("clearAllFilters",searchParams)
+    console.log("clearAllFilters", searchParams);
     searchParams.forEach((value: any, key: any) => {
       searchParams.delete(key);
     });
@@ -52,7 +52,7 @@ const FilterSection = () => {
       <div className="flex items-center justify-between h-[40px] px-9 lg:border-r">
         <p className="text-lg font-semibold">Filters</p>
         <Button
-        onClick={clearAllFilters}
+          onClick={clearAllFilters}
           size="small"
           className="text-teal-600 cursor-pointer font-semibold"
         >

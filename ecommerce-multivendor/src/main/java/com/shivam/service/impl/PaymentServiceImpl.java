@@ -55,7 +55,7 @@ public class PaymentServiceImpl implements PaymentService {
         PaymentOrder paymentOrder = paymentOrderRepository.findByPaymentLinkId(orderId);
 
         if(paymentOrder == null) {
-            throw new Exception("payment order not found with provided Payment link id")
+            throw new Exception("payment order not found with provided Payment link id");
         }
         return paymentOrder;
     }

@@ -126,15 +126,15 @@ public class AuthServiceImpl implements AuthService {
                     throw new Exception("User not exists with provided email");
                 }
             }
-
-
         }
+
         VerificationCode isExist = verificationCodeRepository.findByEmail(email);
 
         if (isExist != null) {
             verificationCodeRepository.delete(isExist);
         }
         String otp = OtpUtil.generateOtp();
+        System.out.println("otp : " + otp);
         VerificationCode verificationCode = new VerificationCode();
         verificationCode.setOtp(otp);
         verificationCode.setEmail(email);

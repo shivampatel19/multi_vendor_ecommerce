@@ -39,7 +39,7 @@ public class AppConfig {
             public CorsConfiguration getCorsConfiguration(HttpServletRequest request) {
                 CorsConfiguration cfg = new CorsConfiguration();
                 // Collections.singletonList() is a utility method in Java that creates an immutable list with a single element. It's often used when only one element is needed in a list
-                cfg.setAllowedOrigins(Collections.singletonList("*")); //if we want we can give arraylist of allowed urls
+                cfg.setAllowedOrigins(Collections.singletonList("http://localhost:3000")); //if we want we can give arraylist of allowed urls
                 // cfg.setAllowedOrigins(Arrays.asList("http://localhost:3000", "https://example.com"));
                 cfg.setAllowedMethods(Collections.singletonList("*"));// all GET, POST, DELETE...
                 cfg.setAllowedHeaders(Collections.singletonList("*"));

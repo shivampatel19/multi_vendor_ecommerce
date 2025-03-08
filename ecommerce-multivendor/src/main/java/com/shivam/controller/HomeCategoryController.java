@@ -5,6 +5,7 @@ import com.shivam.modal.HomeCategory;
 import com.shivam.service.HomeCategoryService;
 import com.shivam.service.HomeService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,9 +14,10 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-
 public class HomeCategoryController {
     private final HomeCategoryService homeCategoryService;
+
+    @Lazy
     private final HomeService homeService;
 
     @PostMapping("/home/categories")

@@ -19,21 +19,21 @@ import {
 import "tailwindcss/tailwind.css";
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import CloseIcon from "@mui/icons-material/Close";
-import { mainCategory } from "../../../data/category/mainCategory";
+import { mainCategory } from "../../../data_copy/category/mainCategory";
 import { isTemplateMiddle } from "typescript";
 // import { menLevelTwo } from "../../../data/category/level two/menLevelTwo";
 // import { womenLevelTwo } from "../../../data/category/level two/womenLevelTwo";
 // import { menLevelThree } from "../../../data/category/level three/menLevelThree";
 // import { womenLevelThree } from "../../../data/category/level three/womenLevelThree";
-import { colors } from "../../../data/Filter/color";
-import { menLevelTwo } from "../../../data/category/level_two/menLevelTwo";
-import { womenLevelTwo } from "../../../data/category/level_two/womenLevelTwo";
-import { furnitureLevelTwo } from "../../../data/category/level_two/furnitureLevleTwo";
-import { electronicsLevelTwo } from "../../../data/category/level_two/electronicsLavelTwo";
-import { menLevelThree } from "../../../data/category/level_three/menLevelThree";
-import { womenLevelThree } from "../../../data/category/level_three/womenLevelThree";
-import { furnitureLevelThree } from "../../../data/category/level_three/furnitureLevelThree";
-import { electronicsLevelThree } from "../../../data/category/level_three/electronicsLevelThree";
+import { colors } from "../../../data_copy/Filter/color";
+import { menLevelTwo } from "../../../data_copy/category/level_two/menLevelTwo";
+import { womenLevelTwo } from "../../../data_copy/category/level_two/womenLevelTwo";
+import { furnitureLevelTwo } from "../../../data_copy/category/level_two/furnitureLevleTwo";
+import { electronicsLevelTwo } from "../../../data_copy/category/level_two/electronicsLavelTwo";
+import { menLevelThree } from "../../../data_copy/category/level_three/menLevelThree";
+import { womenLevelThree } from "../../../data_copy/category/level_three/womenLevelThree";
+import { furnitureLevelThree } from "../../../data_copy/category/level_three/furnitureLevelThree";
+import { electronicsLevelThree } from "../../../data_copy/category/level_three/electronicsLevelThree";
 import { uploadToCloudinary } from "../../../util/uploadToCloudnary";
 // import { useAppDispatch, useAppSelector } from "../../../Redux Toolkit/Store";
 // import { createProduct } from "../../../Redux Toolkit/Seller/sellerProductSlice";
@@ -83,7 +83,7 @@ const validationSchema = Yup.object({
   color: Yup.string().required("Color is required"),
   category: Yup.string().required("Category is required"),
   sizes: Yup.string().required("Sizes are required"),
-})
+});
 
 const ProductForm = () => {
   const [uploadImage, setUploadingImage] = useState(false);
@@ -149,7 +149,7 @@ const ProductForm = () => {
     <div>
       <form onSubmit={formik.handleSubmit} className="space-y-4 p-4">
         <Grid2 container spacing={2}>
-          <Grid2 className="flex flex-wrap gap-5" size={{xs:12}}>
+          <Grid2 className="flex flex-wrap gap-5" size={{ xs: 12 }}>
             <input
               type="file"
               accept="image/*"
@@ -196,7 +196,7 @@ const ProductForm = () => {
               ))}
             </div>
           </Grid2>
-          <Grid2 size={{xs:12}}>
+          <Grid2 size={{ xs: 12 }}>
             <TextField
               fullWidth
               id="title"
@@ -209,7 +209,7 @@ const ProductForm = () => {
               required
             />
           </Grid2>
-          <Grid2 size={{xs:12}}>
+          <Grid2 size={{ xs: 12 }}>
             <TextField
               multiline
               rows={4}
@@ -222,11 +222,13 @@ const ProductForm = () => {
               error={
                 formik.touched.description && Boolean(formik.errors.description)
               }
-              helperText={formik.touched.description && formik.errors.description}
+              helperText={
+                formik.touched.description && formik.errors.description
+              }
               required
             />
           </Grid2>
-          <Grid2 size={{xs:12, sm:6, lg:3}}>
+          <Grid2 size={{ xs: 12, sm: 6, lg: 3 }}>
             <TextField
               fullWidth
               id="mrp_price"
@@ -240,7 +242,7 @@ const ProductForm = () => {
               required
             />
           </Grid2>
-          <Grid2 size={{xs:12, sm:6, lg:3}}>
+          <Grid2 size={{ xs: 12, sm: 6, lg: 3 }}>
             <TextField
               fullWidth
               id="sellingPrice"
@@ -260,7 +262,7 @@ const ProductForm = () => {
             />
           </Grid2>
 
-          <Grid2 size={{xs:12, sm:6, lg:3}}>
+          <Grid2 size={{ xs: 12, sm: 6, lg: 3 }}>
             <FormControl
               fullWidth
               error={formik.touched.color && Boolean(formik.errors.color)}
@@ -279,19 +281,26 @@ const ProductForm = () => {
                   <em>None</em>
                 </MenuItem>
 
-                {colors.map((color, index) => <MenuItem value={color.name}>
-                  <div className="flex gap-3">
-                    <span style={{ backgroundColor: color.hex }} className={`h-5 w-5 rounded-full ${color.name === "White" ? "border" : ""}`}></span>
-                    <p>{color.name}</p>
-                  </div>
-                </MenuItem>)}
+                {colors.map((color, index) => (
+                  <MenuItem value={color.name}>
+                    <div className="flex gap-3">
+                      <span
+                        style={{ backgroundColor: color.hex }}
+                        className={`h-5 w-5 rounded-full ${
+                          color.name === "White" ? "border" : ""
+                        }`}
+                      ></span>
+                      <p>{color.name}</p>
+                    </div>
+                  </MenuItem>
+                ))}
               </Select>
               {formik.touched.color && formik.errors.color && (
                 <FormHelperText>{formik.errors.color}</FormHelperText>
               )}
             </FormControl>
           </Grid2>
-          <Grid2 size={{xs:12, sm:6, lg:3}}>
+          <Grid2 size={{ xs: 12, sm: 6, lg: 3 }}>
             <FormControl
               fullWidth
               error={formik.touched.sizes && Boolean(formik.errors.sizes)}
@@ -320,7 +329,7 @@ const ProductForm = () => {
               )}
             </FormControl>
           </Grid2>
-          <Grid2 size={{xs:12, sm:6, lg:4}}>
+          <Grid2 size={{ xs: 12, sm: 6, lg: 4 }}>
             <FormControl
               fullWidth
               error={formik.touched.category && Boolean(formik.errors.category)}
@@ -346,7 +355,7 @@ const ProductForm = () => {
             </FormControl>
           </Grid2>
 
-          <Grid2 size={{xs:12, sm:6, lg:4}}>
+          <Grid2 size={{ xs: 12, sm: 6, lg: 4 }}>
             <FormControl
               fullWidth
               error={formik.touched.category && Boolean(formik.errors.category)}
@@ -371,7 +380,7 @@ const ProductForm = () => {
               )}
             </FormControl>
           </Grid2>
-          <Grid2 size={{xs:12, sm:6, lg:4}}>
+          <Grid2 size={{ xs: 12, sm: 6, lg: 4 }}>
             <FormControl
               fullWidth
               error={formik.touched.category && Boolean(formik.errors.category)}
@@ -402,7 +411,7 @@ const ProductForm = () => {
               )}
             </FormControl>
           </Grid2>
-          <Grid2 size={{xs:12}}>
+          <Grid2 size={{ xs: 12 }}>
             <Button
               sx={{ p: "14px" }}
               color="primary"
@@ -411,9 +420,15 @@ const ProductForm = () => {
               type="submit"
               // /disabled={sellerProduct.loading}
             >
-              {false ? <CircularProgress size="small"
-              // {sellerProduct.loading ? <CircularProgress size="small" 
-                sx={{ width: "27px", height: "27px" }} /> : "Add Product"}
+              {false ? (
+                <CircularProgress
+                  size="small"
+                  // {sellerProduct.loading ? <CircularProgress size="small"
+                  sx={{ width: "27px", height: "27px" }}
+                />
+              ) : (
+                "Add Product"
+              )}
             </Button>
           </Grid2>
         </Grid2>
@@ -433,7 +448,6 @@ const ProductForm = () => {
         </Alert>
       </Snackbar> */}
     </div>
-
   );
 };
 
